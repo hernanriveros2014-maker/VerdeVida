@@ -1,0 +1,304 @@
+.buscador {
+  position: relative;
+  z-index: 5;
+  width: min(820px, calc(100% - 8vw));
+  margin: -84px auto 8px;
+}
+
+.buscador__fondo {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+}
+
+.buscador__barra {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  min-height: 64px;
+  background: #fff;
+  border-radius: 999px;
+  box-shadow: 0 8px 28px #14141414, 0 1px 2px #1414140a;
+}
+
+.buscador__campo {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.buscador__campo--huespedes {
+  flex: 1.15;
+}
+
+.buscador__segmento {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 12px 22px;
+  cursor: pointer;
+  border-radius: 999px;
+}
+
+.buscador__segmento:hover,
+.buscador__segmento--activo {
+  background: #faf6f0;
+}
+
+.buscador__segmento--error .buscador__valor {
+  color: var(--color-error);
+}
+
+.buscador__etiqueta {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #aaa;
+}
+
+.buscador__valor {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.92rem;
+  font-weight: 550;
+  color: #1a1a1a;
+}
+
+.buscador__divisor {
+  width: 1px;
+  height: 28px;
+  background: #14141418;
+  flex-shrink: 0;
+}
+
+.buscador__acciones {
+  display: flex;
+  gap: 8px;
+  margin: 0 12px 0 8px;
+  flex-shrink: 0;
+}
+
+.buscador__icono {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: #1a1a1a;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buscador__icono:hover {
+  background: #2e2e2e;
+}
+
+.buscador__svg {
+  width: 18px;
+  height: 18px;
+}
+
+.buscador__icono[data-tooltip]::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.buscador__icono:hover::after {
+  opacity: 1;
+}
+
+.buscador__error {
+  margin: 10px 0 0;
+  text-align: center;
+  color: #9f2d20;
+  font-size: 0.9rem;
+}
+
+.calendario,
+.huespedes-popover {
+  position: absolute;
+  top: calc(100% + 12px);
+  left: 0;
+  z-index: 6;
+  width: 320px;
+  padding: 16px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 40px #14141424;
+}
+
+.huespedes-popover {
+  left: auto;
+  right: 0;
+  width: 300px;
+}
+
+.calendario__cerrar {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 28px;
+  height: 28px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #9f2d20;
+  font-size: 1.3rem;
+  cursor: pointer;
+}
+
+.calendario__cabeza,
+.calendario__semana,
+.calendario__dias {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendario__cabeza {
+  grid-template-columns: 32px 1fr 32px;
+  align-items: center;
+  margin: 8px 0 12px;
+}
+
+.calendario__cabeza strong {
+  text-align: center;
+  font-size: 0.95rem;
+}
+
+.calendario__cabeza button,
+.calendario__dias button,
+.huespedes-popover__controles button {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.calendario__cabeza button {
+  width: 32px;
+  height: 32px;
+  font-size: 1.3rem;
+}
+
+.calendario__semana {
+  margin-bottom: 6px;
+  color: #7a7a7a;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.calendario__dias button {
+  height: 36px;
+  font-size: 0.88rem;
+}
+
+.calendario__dias button:hover:not(:disabled) {
+  background: #f4f0e8;
+}
+
+.calendario__dias button:disabled {
+  color: #ccc;
+  cursor: default;
+}
+
+.calendario__dia--activo {
+  background: #1a1a1a;
+  color: #fff;
+}
+
+.huespedes-popover__fila {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.huespedes-popover__fila strong,
+.huespedes-popover__fila span {
+  display: block;
+}
+
+.huespedes-popover__fila span {
+  color: #7a7a7a;
+  font-size: 0.85rem;
+}
+
+.huespedes-popover__controles {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.huespedes-popover__controles button {
+  width: 32px;
+  height: 32px;
+  border: 1px solid #e4ddd3;
+}
+
+.huespedes-popover__controles button:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.huespedes-popover__listo {
+  margin-top: 14px;
+  margin-left: auto;
+  display: block;
+  border: 0;
+  background: #1a1a1a;
+  color: #fff;
+  border-radius: 8px;
+  min-height: 36px;
+  padding: 0 16px;
+  cursor: pointer;
+}
+
+@media (max-width: 800px) {
+  .buscador {
+    margin-top: 18px;
+  }
+
+  .buscador__barra {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 24px;
+    padding: 8px;
+  }
+
+  .buscador__divisor {
+    display: none;
+  }
+
+  .buscador__acciones {
+    justify-content: flex-end;
+    margin: 8px 8px 8px 0;
+  }
+
+  .calendario,
+  .huespedes-popover {
+    position: static;
+    width: auto;
+    margin: 8px;
+    box-shadow: none;
+    border: 1px solid #e4ddd3;
+  }
+}

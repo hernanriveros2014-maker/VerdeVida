@@ -1,0 +1,106 @@
+.facturacion__tipo-doc {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.facturacion__tipo-option {
+  cursor: pointer;
+}
+
+.facturacion__tipo-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.facturacion__tipo-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-height: 92px;
+  padding: 16px 18px;
+  border: 1.5px solid var(--hp-borde);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.facturacion__tipo-option input:checked + .facturacion__tipo-box {
+  border-color: var(--hp-acento);
+  box-shadow: 0 0 0 3px #8b735522;
+}
+
+.facturacion__tipo-option input:focus-visible + .facturacion__tipo-box {
+  outline: 2px solid var(--hp-acento);
+  outline-offset: 2px;
+}
+
+.facturacion__tipo-name {
+  font-weight: 650;
+  color: var(--hp-primary);
+}
+
+.facturacion__tipo-desc {
+  color: var(--hp-suave);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.facturacion__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px 14px;
+}
+
+.facturacion__field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.facturacion__field--ancho {
+  grid-column: 1 / -1;
+}
+
+.facturacion__label {
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+}
+
+.facturacion__field input,
+.facturacion__field select {
+  height: 46px;
+  padding: 0 12px;
+  border: 1px solid var(--hp-borde);
+  border-radius: var(--radius-sm);
+  background: #fff;
+  color: var(--hp-texto);
+  font: inherit;
+}
+
+.facturacion__field input:focus,
+.facturacion__field select:focus {
+  outline: 2px solid var(--hp-acento);
+  border-color: transparent;
+}
+
+.facturacion__error {
+  color: var(--color-error);
+  font-size: 0.78rem;
+}
+
+.facturacion__estado {
+  margin: 16px 0 0;
+  color: var(--hp-suave);
+  font-size: 0.82rem;
+}
+
+@media (max-width: 720px) {
+  .facturacion__tipo-doc,
+  .facturacion__grid {
+    grid-template-columns: 1fr;
+  }
+}
