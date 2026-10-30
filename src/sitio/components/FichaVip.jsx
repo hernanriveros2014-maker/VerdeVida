@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { codSitio, origenArriendaVip } from '../../config/sitio'
+import { lodge } from '../data/lodge'
 
 export function urlFichaVip(id, query = {}) {
   const huespedes = query.huespedes || '0'
@@ -28,6 +29,9 @@ export function FichaVip({ id }) {
   const [params] = useSearchParams()
   const [alto, setAlto] = useState(1600)
   const [menuAbierto, setMenuAbierto] = useState(false)
+  const [visorAbierto, setVisorAbierto] = useState(false)
+  const [modalAbierto, setModalAbierto] = useState(false)
+  const cubre = menuAbierto || visorAbierto || modalAbierto
   const codigo = codSitio()
   const src = useMemo(
     () =>
@@ -40,15 +44,15 @@ export function FichaVip({ id }) {
   )
 
   useEffect(() => {
-    document.title = 'Cabaña · Toltén Lodge'
+    document.title = `Cabaña · ${lodge.nombre}`
   }, [id])
 
   useEffect(() => {
-    document.body.style.overflow = menuAbierto ? 'hidden' : ''
+    document.body.style.overflow = cubre ? 'hidden' : ''
     return () => {
       document.body.style.overflow = ''
     }
-  }, [menuAbierto])
+  }, [cubre])
 
   useEffect(() => {
     const origen = origenArriendaVip()
@@ -56,6 +60,16 @@ export function FichaVip({ id }) {
       if (event.origin !== origen) return
       if (event.data?.tipo === 'tolten-menu') {
         setMenuAbierto(Boolean(event.data.abierto))
+        return
+      }
+      if (event.data?.tipo === 'tolten-modal') {
+        setModalAbierto(Boolean(event.data.abierto))
+        if (event.data.abierto) window.scrollTo(0, 0)
+        return
+      }
+      if (event.data?.tipo === 'tolten-lightbox') {
+        setVisorAbierto(Boolean(event.data.abierto))
+        if (event.data.abierto) window.scrollTo(0, 0)
         return
       }
       if (event.data?.tipo !== 'tolten-ficha-alto') return
@@ -78,11 +92,16 @@ export function FichaVip({ id }) {
   return (
     <main className="ficha-vip">
       <iframe
-        className={menuAbierto ? 'ficha-vip__frame--menu' : undefined}
+        className={cubre ? 'ficha-vip__frame--menu' : undefined}
         title="Detalle de la cabaña"
         src={src}
-        style={{ height: menuAbierto ? '100vh' : alto }}
-        scrolling={menuAbierto ? 'auto' : 'no'}
+        style={{ height: cubre ? 'calc(100dvh - var(--nav-h))' : alto }}
+        onLoad={() => {
+          setMenuAbierto(false)
+          setVisorAbierto(false)
+          setModalAbierto(false)
+        }}
+        scrolling={cubre ? 'auto' : 'no'}
       />
     </main>
   )

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams, useSearchParams } from 'react-router-dom'
 import { formatPrecio, urlReserva } from '../../api/alojamientos'
-import { cabanaPorSlug, equipamiento } from '../data/lodge'
+import { equipamiento, lodge } from '../data/lodge'
 import { useAlojamientos } from '../useAlojamientos'
 import { FichaVip } from '../components/FichaVip'
 
@@ -29,7 +29,7 @@ function DetalleLocal({ slug }) {
 
   useEffect(() => {
     const nombre = publicada?.titulo || estatica?.nombre
-    document.title = nombre ? `${nombre} · Toltén Lodge` : 'Cabaña · Toltén Lodge'
+    document.title = nombre ? `${nombre} · ${lodge.nombre}` : `Cabaña · ${lodge.nombre}`
   }, [estatica, publicada])
 
   if (!estatica && estado === 'cargando') {
@@ -125,7 +125,7 @@ function DetalleLocal({ slug }) {
           </p>
           <ul>
             <li>{estatica.resumen}</li>
-            <li>Check-in 16:00 · check-out 12:00</li>
+            <li>Entrada {lodge.checkin} · salida {lodge.checkout}</li>
           </ul>
           <Link className="hp-btn hp-btn--gold" to={`/reservas?cabana=${estatica.slug}`}>
             Hacer reserva

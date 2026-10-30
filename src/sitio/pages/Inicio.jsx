@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { lodge } from '../data/lodge'
+import { lodge, servicios, testimonios } from '../data/lodge'
+import { ServiciosGrid } from '../components/ServiciosGrid'
 import { BuscadorEstadia } from '../components/BuscadorEstadia'
 import { ListadoCabanas } from '../components/ListadoCabanas'
 import { useAlojamientos } from '../useAlojamientos'
@@ -22,53 +23,64 @@ export function Inicio() {
 
   return (
     <main>
-      <section className="hp-hero" style={{ backgroundImage: "url('/media/hero-2.jpg')" }}>
+      <section className="hp-hero" style={{ backgroundImage: "url('/media/verdevida/hero.jpeg')" }}>
         <div className="hp-hero__velo" />
         <div className="hp-hero__contenido">
-          <span className="hp-label">Villarrica · Río Toltén</span>
-          <h1>Toltén Lodge</h1>
+          <span className="hp-label">Pucón</span>
+          <h1>El nuevo comienzo en armonía con la naturaleza</h1>
           <p className="hp-hero__bajada">
-            Tres cabañas de madera nativa, cada una con hot-tub, en 500 metros de rivera privada. A 30 minutos de Villarrica y del aeropuerto de La Araucanía.
+            Apart hotel a minutos del centro, rodeado de naturaleza. Ocho habitaciones para descansar con calma.
           </p>
+          <Link className="hp-btn hp-btn--gold" to="/cabanas">
+            Reservar ahora
+          </Link>
         </div>
       </section>
 
       <BuscadorEstadia onBuscar={buscar} onLimpiar={() => navigate('/cabanas')} />
 
-      <section className="hp-section">
+      <section className="hp-section" id="servicios">
+        <div className="hp-inner">
+          <span className="hp-label">El apart hotel</span>
+          <h2 className="hp-section-title servicios-titulo">Servicios</h2>
+          <ServiciosGrid items={servicios} />
+        </div>
+      </section>
+
+      <section className="hp-section" id="nosotros" style={{ paddingTop: 0 }}>
         <div className="hp-inner intro">
           <div>
-            <span className="hp-label">El lodge</span>
-            <h2 className="hp-section-title">Un complejo privado entre el río y el bosque.</h2>
+            <span className="hp-label">Sobre nosotros</span>
+            <h2 className="hp-section-title">Un descanso simple, en un entorno natural.</h2>
             <p>
-              Toltén Lodge está a orillas del río Toltén, con rivera y bosque nativo, pensado para el descanso de toda la familia. Son solo tres cabañas en más de una hectárea, cada una con su hot-tub.
+              En VerdeVida el descanso está en lo simple: un entorno natural, una atención cálida y espacios hechos con cariño. Es un apart hotel a minutos del centro de Pucón, rodeado de naturaleza.
             </p>
             <p>
-              Para quien viene a pescar, el lodge es la puerta de entrada al sur: salmón Chinook en el Toltén, cercanía al Allipén y excursiones con guías de la zona.
+              Hay 8 habitaciones para un total de 18 personas, equipadas para ofrecer privacidad y comodidad. El lugar funciona bien para parejas o viajeros que buscan tranquilidad y cercanía.
             </p>
             <div className="cifras">
               <div>
-                <strong>3</strong>
-                <span>cabañas</span>
+                <strong>8</strong>
+                <span>habitaciones</span>
               </div>
               <div>
-                <strong>500 m</strong>
-                <span>de rivera</span>
+                <strong>18</strong>
+                <span>personas</span>
               </div>
               <div>
-                <strong>1 ha</strong>
-                <span>de terreno privado</span>
+                <strong>10 min</strong>
+                <span>caminando al centro</span>
               </div>
               <div>
-                <strong>30 min</strong>
-                <span>de Villarrica</span>
+                <strong>14:00</strong>
+                <span>entrada · salida 12:00</span>
               </div>
             </div>
           </div>
           <div className="intro__collage">
-            <img src="/media/hq/mirador-1.jpg" alt="Cabaña de madera entre el bosque nativo" />
-            <img src="/media/hq/refugio-4.jpg" alt="Hot-tub de madera junto al río" />
-            <img src="/media/hq/entorno-3.jpg" alt="Jardín y bosque del lodge" />
+            <img src="/media/verdevida/jardin.jpeg" alt="Jardín y entorno natural de VerdeVida" />
+            <img src="/media/verdevida/habitaciones/doble.jpeg" alt="Habitación doble de VerdeVida" />
+            <img src="/media/verdevida/galeria/terraza.jpeg" alt="Terraza del apart hotel" />
           </div>
         </div>
       </section>
@@ -76,8 +88,8 @@ export function Inicio() {
       <section className="hp-section" style={{ paddingTop: 0 }}>
         <div className="hp-inner">
           <span className="hp-label">Alojamiento</span>
-          <h2 className="hp-section-title">Cabañas</h2>
-          <p className="hp-section-sub">Equipadas, de madera nativa, con cocina completa y vista al río.</p>
+          <h2 className="hp-section-title">Habitaciones disponibles</h2>
+          <p className="hp-section-sub">Elige fechas y reserva en línea. El pago y la disponibilidad se confirman con ArriendaVIP.</p>
           <ListadoCabanas items={visibles} estado={estado} error={error} clase="listing-grid listing-grid--cuatro" />
           {estado === 'listo' && items.length > 0 ? (
             <div className="paginacion">
@@ -95,33 +107,26 @@ export function Inicio() {
         </div>
       </section>
 
-      <section className="franja">
-        <img src="/media/hq/pesca-6.jpg" alt="Botes de pesca en el río Toltén" />
-        <div className="franja__texto">
-          <span className="hp-label">1 de septiembre al 28 de febrero</span>
-          <h2 className="hp-section-title">Pesca de salmón Chinook</h2>
-          <p>
-            El río Toltén es conocido por el Chinook, con ejemplares que llegan a los 25 kilos. También hay excursiones de fly fishing, trucha y clases para quien está empezando.
-          </p>
-          <Link className="hp-btn hp-btn--claro" to="/pesca">
-            Ver excursiones
-          </Link>
-        </div>
-      </section>
-
-      <section className="hp-section">
-        <div className="hp-inner spa">
-          <img src="/media/hq/refugio-4.jpg" alt="Hot-tub frente al río Toltén" />
-          <div>
-            <span className="hp-label">Cabañas, pesca y spa</span>
-            <h2 className="hp-section-title">Hot-tub propio y rivera para caminar.</h2>
-            <p className="hp-section-sub">
-              Desde la cabaña se ve el río y se puede recorrer flora y fauna en 500 metros de rivera exclusiva, para pesca, caminata o fotografía. El hot-tub queda disponible en estadías de más de dos noches.
-            </p>
-            <Link className="hp-btn hp-btn--gold" to="/galeria/entorno">
-              Ver el entorno
-            </Link>
+      <section className="hp-section" style={{ paddingTop: 0 }}>
+        <div className="hp-inner">
+          <span className="hp-label">Huéspedes</span>
+          <h2 className="hp-section-title">Testimonios</h2>
+          <div className="listing-grid">
+            {testimonios.slice(0, 3).map((item) => (
+              <article className="listing-card" key={item.nombre}>
+                <div className="listing-card__body">
+                  <span className="listing-card__meta">{item.contexto}</span>
+                  <h3>{item.nombre}</h3>
+                  <p>{item.texto}</p>
+                </div>
+              </article>
+            ))}
           </div>
+          <p style={{ marginTop: 22 }}>
+            <Link className="hp-btn hp-btn--outline" to="/testimonios">
+              Ver todos
+            </Link>
+          </p>
         </div>
       </section>
 
@@ -149,7 +154,9 @@ export function Inicio() {
               <p>
                 <a href={`mailto:${lodge.email}`}>{lodge.email}</a>
               </p>
-              <p style={{ marginTop: 16 }}>Ingreso desde las {lodge.checkin}. Salida hasta las {lodge.checkout}.</p>
+              <p style={{ marginTop: 16 }}>
+                Entrada {lodge.checkin}. Salida {lodge.checkout}.
+              </p>
             </div>
           </div>
         </div>

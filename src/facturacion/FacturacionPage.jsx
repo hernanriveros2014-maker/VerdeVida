@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { lodge } from '../sitio/data/lodge'
 import { DatosFacturacion } from './DatosFacturacion'
 import { guardarDatosCliente, obtenerDatosCliente } from './api'
 import { DATOS_VACIOS, validarFacturacion } from './validar'
@@ -11,7 +12,7 @@ export function FacturacionPage() {
   const [aviso, setAviso] = useState('')
 
   useEffect(() => {
-    document.title = 'Facturación · Toltén Lodge'
+    document.title = `Facturación · ${lodge.nombre}`
     obtenerDatosCliente().then((res) => {
       if (res.datos) setDatos({ ...DATOS_VACIOS, ...res.datos })
       setOrigen(res.origen)

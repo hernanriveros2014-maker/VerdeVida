@@ -4,6 +4,7 @@ import { DatosFacturacion } from '../../facturacion/DatosFacturacion'
 import { guardarDatosCliente } from '../../facturacion/api'
 import { DATOS_VACIOS, validarFacturacion } from '../../facturacion/validar'
 import { cabanaPorSlug, cabanas, lodge } from '../data/lodge'
+import { useAlojamientos } from '../useAlojamientos'
 
 const PASOS = ['Estadía', 'Huésped', 'Facturación', 'Confirmación']
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -26,7 +27,7 @@ export function Reservas() {
   const inicial = cabanaPorSlug(params.get('cabana'))
   const [paso, setPaso] = useState(0)
   const [estadia, setEstadia] = useState({
-    cabana: inicial?.slug ?? '',
+    cabana: inicial?.slug || params.get('cabana') || '',
     desde: params.get('desde') ?? '',
     hasta: params.get('hasta') ?? '',
     huespedes: Number(params.get('huespedes') || 2),
@@ -43,11 +44,19 @@ export function Reservas() {
   const [origenFactura, setOrigenFactura] = useState('local')
   const [omitioFactura, setOmitioFactura] = useState(false)
 
-  const cabana = cabanaPorSlug(estadia.cabana)
+  const { items } = useAlojamientos()
+  const opciones = items.length
+    ? items.map((item) => ({
+        slug: item.id,
+        nombre: item.titulo,
+        huespedes: item.huespedes || lodge.huespedesMax,
+      }))
+    : cabanas
+  const cabana = opciones.find((item) => item.slug === estadia.cabana) || cabanaPorSlug(estadia.cabana)
   const estadiaNoches = noches(estadia.desde, estadia.hasta)
 
   useEffect(() => {
-    document.title = 'Reservas · Toltén Lodge'
+    document.title = `Reservas · ${lodge.nombre}`
   }, [])
 
   function validarEstadia() {
@@ -139,7 +148,7 @@ export function Reservas() {
               Cabaña
               <select value={estadia.cabana} onChange={(event) => setEstadia({ ...estadia, cabana: event.target.value })}>
                 <option value="">Seleccione…</option>
-                {cabanas.map((item) => (
+                {opciones.map((item) => (
                   <option key={item.slug} value={item.slug}>
                     {item.nombre} · hasta {item.huespedes}
                   </option>
@@ -164,7 +173,7 @@ export function Reservas() {
                   −
                 </button>
                 <strong>{estadia.huespedes}</strong>
-                <button type="button" onClick={() => setEstadia({ ...estadia, huespedes: Math.min(7, estadia.huespedes + 1) })} aria-label="Más huéspedes">
+                <button type="button" onClick={() => setEstadia({ ...estadia, huespedes: Math.min(cabana?.huespedes || lodge.huespedesMax, estadia.huespedes + 1) })} aria-label="Más huéspedes">
                   +
                 </button>
               </span>
@@ -261,7 +270,7 @@ export function Reservas() {
             <div>
               <span>Horario</span>
               <strong>
-                Ingreso {lodge.checkin} · salida {lodge.checkout}
+                Entrada {lodge.checkin} · salida {lodge.checkout}
               </strong>
             </div>
             <div>
@@ -270,7 +279,7 @@ export function Reservas() {
             </div>
           </div>
           <p className="politica">
-            Check-in desde las {lodge.checkin}. Check-out hasta las {lodge.checkout}. Las reservas por Airbnb u otras plataformas siguen la política de cada compañía.
+            Entrada a las {lodge.checkin}. Salida hasta las {lodge.checkout}. En algunas fechas de temporada se piden al menos 2 noches.
           </p>
           <div className="form-acciones">
             <a className="hp-btn hp-btn--gold" href={lodge.whatsapp} target="_blank" rel="noreferrer">

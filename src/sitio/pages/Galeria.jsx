@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { NavLink, useParams } from 'react-router-dom'
-import { albumes } from '../data/lodge'
+import { albumes, lodge } from '../data/lodge'
 
 export function Galeria() {
   const { album: slug } = useParams()
@@ -10,7 +10,7 @@ export function Galeria() {
   const [activa, setActiva] = useState(null)
 
   useEffect(() => {
-    document.title = album ? `${album.nombre} · Galería` : 'Galería · Toltén Lodge'
+    document.title = album ? `${album.nombre} · Galería` : `Galería · ${lodge.nombre}`
     setActiva(null)
   }, [album])
 
@@ -34,7 +34,7 @@ export function Galeria() {
 
   return (
     <main className="pagina">
-      <span className="hp-label">Fotografías del lodge</span>
+      <span className="hp-label">Habitaciones y espacios</span>
       <h1 className="pagina__titulo">{album ? album.nombre : 'Galería'}</h1>
       <nav className="galeria-nav" aria-label="Álbumes">
         <NavLink to="/galeria" end className={({ isActive }) => (isActive ? 'activa' : undefined)}>
